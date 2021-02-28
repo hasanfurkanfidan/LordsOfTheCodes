@@ -1,9 +1,14 @@
 ﻿
 using Business.Abstract;
 using Business.Constant;
+using Business.ValidationRules;
+using Core.Aspects.Autofac;
+using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.ResultManagement;
 using DataAccess.Abstract;
+using DataAccess.Concrete;
 using Entities.Concrete;
+using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,20 +22,26 @@ namespace Business.Concrete
         {
             _carRepository = carRepository;
         }
+
+        [ValidationAspect(typeof(CarValidator),Priority =1)]
         public IResult Add(Car car)
         {
+          
             _carRepository.Add(car);
+
             return new SuccessResult()
             {
                 Message = Messages.CarAdded
             };
+
+
         }
 
         public IDataResult<List<Car>> GetAll()
         {
             var data = _carRepository.GetList();
-            return new SuccessDataResult<List<Car>>(data,Messages.GetAllCar);
-          
+            return new SuccessDataResult<List<Car>>(data, Messages.GetAllCar);
+
         }
 
         public IDataResult<Car> GetById(int id)
