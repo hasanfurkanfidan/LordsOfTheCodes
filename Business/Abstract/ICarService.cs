@@ -10,12 +10,12 @@ namespace Business.Abstract
     {
         //Result Management
         //n-layered
-        List<Car> GetAll();
-        List<Car> GetListByBrandId(int brandId);
-        List<Car> GetListByColorId(int colorId);
-        Car GetById(int id);        
+        IDataResult<List<Car>> GetAll();
+        IDataResult<List<Car>> GetListByBrandId(int brandId);
+        IDataResult<List<Car>> GetListByColorId(int colorId);
+        IDataResult<Car> GetById(int id);
         IResult Add(Car car);
-        void Remove(Car car);
-        void Update(Car car);
+        IResult Remove(Car car);
+        IResult Update(Car car);
     }
 }

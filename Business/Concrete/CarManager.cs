@@ -1,5 +1,8 @@
-﻿using Business.Abstract;
+﻿
+using Business.Abstract;
+using Business.Constant;
 using Core.Utilities.ResultManagement;
+using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
@@ -9,40 +12,61 @@ namespace Business.Concrete
 {
     public class CarManager : ICarService
     {
+        private readonly ICarRepository _carRepository;
+        public CarManager(ICarRepository carRepository)
+        {
+            _carRepository = carRepository;
+        }
         public IResult Add(Car car)
         {
-            throw new NotImplementedException();
+            _carRepository.Add(car);
+            return new SuccessResult()
+            {
+                Message = Messages.CarAdded
+            };
         }
 
-        public List<Car> GetAll()
+        public IDataResult<List<Car>> GetAll()
         {
-       
-            throw new NotImplementedException();
+            var data = _carRepository.GetList();
+            return new SuccessDataResult<List<Car>>(data,Messages.GetAllCar);
+          
         }
 
-        public Car GetById(int id)
+        public IDataResult<Car> GetById(int id)
         {
-            throw new NotImplementedException();
+            var data = _carRepository.Get(p => p.Id == id);
+            return new SuccessDataResult<Car>(data);
         }
 
-        public List<Car> GetListByBrandId(int brandId)
+        public IDataResult<List<Car>> GetListByBrandId(int brandId)
         {
-            throw new NotImplementedException();
+            var data = _carRepository.GetList(p => p.BrandId == brandId);
+            return new SuccessDataResult<List<Car>>(data);
         }
 
-        public List<Car> GetListByColorId(int colorId)
+        public IDataResult<List<Car>> GetListByColorId(int colorId)
         {
-            throw new NotImplementedException();
+            var data = _carRepository.GetList(p => p.ColorId == colorId);
+            return new SuccessDataResult<List<Car>>(data);
         }
 
-        public void Remove(Car car)
+        public IResult Remove(Car car)
         {
-            throw new NotImplementedException();
+            _carRepository.Delete(car);
+            return new SuccessResult()
+            {
+                Message = Messages.CarDeleted
+            };
         }
 
-        public void Update(Car car)
+        public IResult Update(Car car)
         {
-            throw new NotImplementedException();
+            _carRepository.Update(car);
+            return new SuccessResult()
+            {
+                Message = Messages.CarUpdated
+            };
         }
     }
 }
