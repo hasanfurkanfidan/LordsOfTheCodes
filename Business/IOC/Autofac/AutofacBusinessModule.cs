@@ -17,7 +17,7 @@ namespace Business.IOC.Autofac
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<CarRepository>().As<ICarRepository>();
-
+            builder.RegisterType<CarManager>().As<ICarService>();
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
 
             builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces()
